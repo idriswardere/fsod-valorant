@@ -194,8 +194,15 @@ def main(args):
                 "Please specify --eval-only, --eval-all, or --eval-during-train"
             )
 
+from detectron2.data.datasets import register_coco_instances
 
 if __name__ == "__main__":
+    # Registering custom datasets
+    train_valorant_dataset = 'fsod-valorant-4-train'
+    test_valorant_dataset = 'fsod-valorant-4-test'
+    register_coco_instances(train_valorant_dataset, {}, "FSOD-Valorant-4/train/_annotations.coco.json", "FSOD-Valorant-4/train")
+    register_coco_instances(test_valorant_dataset, {}, "FSOD-Valorant-4/test/_annotations.coco.json", "FSOD-Valorant-4/test")
+
     args = default_argument_parser().parse_args()
     if args.eval_during_train or args.eval_all:
         args.dist_url = "tcp://127.0.0.1:{:05d}".format(
