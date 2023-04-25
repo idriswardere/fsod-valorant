@@ -275,8 +275,7 @@ if __name__ == "__main__":
         TAR_SIZE = 1230
     else:
         # VOC
-        #TAR_SIZE = 20
-        TAR_SIZE = 20 # This will randomly initialize 10 classes corresponding with custom Valorant dataset chars
+        TAR_SIZE = 20
 
     if args.method == "combine":
         combine_ckpts(args)

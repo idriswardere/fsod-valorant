@@ -150,7 +150,7 @@ class COCOEvaluator(DatasetEvaluator):
                 for k, v in self._metadata.thing_dataset_id_to_contiguous_id.items()
             }
             for result in self._coco_results:
-                # Fixing too many classes issue
+                # Fixing too many classes issue for fsod-valorant
                 if result["category_id"] > 10:
                     result["category_id"] = 0
                 result["category_id"] = reverse_id_mapping[

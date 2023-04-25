@@ -69,6 +69,9 @@ class Trainer(DefaultTrainer):
         if len(evaluator_list) == 1:
             return evaluator_list[0]
         return DatasetEvaluators(evaluator_list)
+    
+class NewTrainer():
+    pass
 
 
 def setup(args):
