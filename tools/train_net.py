@@ -70,9 +70,6 @@ class Trainer(DefaultTrainer):
             return evaluator_list[0]
         return DatasetEvaluators(evaluator_list)
     
-class NewTrainer():
-    pass
-
 
 def setup(args):
     """
