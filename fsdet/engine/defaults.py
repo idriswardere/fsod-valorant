@@ -112,6 +112,8 @@ def default_argument_parser():
         default=0,
         help="the rank of this machine (unique per machine)",
     )
+    # For fsod-valorant
+    parser.add_argument("--oldtrainer", action="store_true", help="use the original fsdet Trainer (default: use fsod-valorant NewTrainer)")
 
     # PyTorch still may leave orphan processes in multi-gpu training.
     # Therefore we use a deterministic way to obtain port,
@@ -482,7 +484,7 @@ class DefaultTrainer(SimpleTrainer):
         It now calls :func:`fsdet.solver.build_optimizer`.
         Overwrite it if you'd like a different optimizer.
         """
-        return build_optimizer(cfg, model)
+        #return build_optimizer(cfg, model)
         
         lr = 0.001
         layer_decay_factor = 0.5

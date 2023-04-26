@@ -31,7 +31,6 @@ from fsdet.evaluation import (
     verify_results,
 )
 
-
 class Trainer(DefaultTrainer):
     """
     We use the "DefaultTrainer" which contains a number pre-defined logic for
@@ -102,6 +101,7 @@ def main(args):
     If you'd like to do anything fancier than the standard training logic,
     consider writing your own training loop or subclassing the trainer.
     """
+    # use --oldtrainer?
     trainer = Trainer(cfg)
     trainer.resume_or_load(resume=args.resume)
     return trainer.train()
