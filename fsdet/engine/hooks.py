@@ -5,7 +5,8 @@ import detectron2.utils.comm as comm
 from detectron2.engine.train_loop import HookBase
 from detectron2.evaluation.testing import flatten_results_dict
 from fsdet.utils.file_io import PathManager
-
+import wandb
+import detectron2.utils.logger
 __all__ = ["EvalHookFsdet"]
 
 
@@ -43,6 +44,7 @@ class EvalHookFsdet(HookBase):
             )
 
             flattened_results = flatten_results_dict(results)
+            
             for k, v in flattened_results.items():
                 try:
                     v = float(v)
@@ -51,6 +53,7 @@ class EvalHookFsdet(HookBase):
                         "[EvalHook] eval_function should return a nested dict of float. "
                         "Got '{}: {}' instead.".format(k, v)
                     ) from e
+
             self.trainer.storage.put_scalars(
                 **flattened_results, smoothing_hint=False
             )

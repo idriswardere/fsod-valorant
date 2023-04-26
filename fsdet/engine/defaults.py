@@ -41,7 +41,9 @@ from fsdet.modeling import build_model
 from fsdet.utils.file_io import PathManager
 from fvcore.nn.precise_bn import get_bn_modules
 from torch.nn.parallel import DistributedDataParallel
-
+import wandb
+from detectron2.utils.events import get_event_storage, EventWriter
+from detectron2.evaluation import DatasetEvaluators, COCOEvaluator
 __all__ = [
     "default_argument_parser",
     "default_setup",
@@ -302,6 +304,15 @@ class DefaultTrainer(SimpleTrainer):
         model = self.build_model(cfg)
         optimizer = self.build_optimizer(cfg, model)
         data_loader = self.build_train_loader(cfg)
+        wandb.login(key="0eda301cfca0c91b54b93ad27b3e8d79d3b363b5")
+        run = wandb.init(
+              name = "test", ## Wandb creates random run names if you skip this field
+              reinit = True, ### Allows reinitalizing runs when you re-run this cell
+              #id = "g5es2z5t",### Insert specific run id here if you want to resume a previous run
+              #resume = "must", ### You need this to resume previous runs, but comment out reinit = True when using this
+              project = "project", ### Project should be created in your wandb account 
+            #config = config ### Wandb Config for your run
+          )
 
         # For training, wrap with DDP. But don't need this for inference.
         if comm.get_world_size() > 1:
@@ -432,6 +443,7 @@ class DefaultTrainer(SimpleTrainer):
             CommonMetricPrinter(self.max_iter),
             JSONWriter(os.path.join(self.cfg.OUTPUT_DIR, "metrics.json")),
             TensorboardXWriter(self.cfg.OUTPUT_DIR),
+            WandbWriter(),
         ]
 
     def train(self):
@@ -541,6 +553,11 @@ class DefaultTrainer(SimpleTrainer):
 
         It is not implemented by default.
         """
+        # coco_evaluator = COCOEvaluator(dataset_name, output_dir="./coco_eval_result")
+        
+        # evaluator_list = [coco_evaluator]
+        
+        # return DatasetEvaluators(evaluator_list)
         raise NotImplementedError(
             "Please either implement `build_evaluator()` in subclasses, or pass "
             "your evaluator as arguments to `DefaultTrainer.test()`."
@@ -585,6 +602,7 @@ class DefaultTrainer(SimpleTrainer):
                     results[dataset_name] = {}
                     continue
             results_i = inference_on_dataset(model, data_loader, evaluator)
+            
             results[dataset_name] = results_i
             if comm.is_main_process():
                 assert isinstance(
@@ -601,4 +619,34 @@ class DefaultTrainer(SimpleTrainer):
 
         if len(results) == 1:
             results = list(results.values())[0]
+        aps = list(results_i['bbox'].items())[:6]
+        aps_ = dict(aps)
+        wandb.log(aps_)
         return results
+
+
+class WandbWriter(EventWriter):
+
+    def __init__(self):
+        
+        self.logger = logging.getLogger(__name__)
+        self._window_size = 20
+    def write(self):
+        storage = get_event_storage()
+        metrics = {}
+        losses = [
+                  "{}:{:.4g}".format(
+                      k, v.median(storage.count_samples(k, self._window_size))
+                  )
+                  for k, v in storage.histories().items()
+                  if "loss" in k
+                  ]
+        for l in losses:
+          l_ = l.split(":")
+          k = l_[0] 
+          v = float(l_[1])
+          metrics[k] = v
+        
+        # self.logger.info(metrics)
+          
+        wandb.log(metrics)
