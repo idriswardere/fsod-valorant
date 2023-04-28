@@ -3,25 +3,23 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-FsDet contains the official few-shot object detection implementation of the ICML 2020 paper
+Fsod-valorant contains the implementation of the project few-shot object detection on Valorant agents. 
 [Frustratingly Simple Few-Shot Object Detection](https://arxiv.org/abs/2003.06957).
 ![TFA Figure](https://user-images.githubusercontent.com/7898443/76520006-698cc200-6438-11ea-864f-fd30b3d50cea.png)
 
-In addition to the benchmarks used by previous works, we introduce new benchmarks on three datasets: PASCAL VOC, COCO, and LVIS. We sample multiple groups of few-shot training examples for multiple runs of the experiments and report evaluation results on both the base classes and the novel classes. These are described in more detail in [Data Preparation](#data-preparation).
+Thoa goal of this repository is to provide a framework to implement the few-shot object detection methods in Valorant, a firstperson game set in a three dimensional environment developed and published by Riot Games. Using a custom dataset, we finetune a pre-trained Faster-RCNN object detector with 20 images from 10 different Valorant characters using three different methods: training with no frozen layers, training with all frozen layers except for the last, and our proposed method, training with multiplicative layer-wise learning rates (MLLR). We find that our method performs the best out of the three methods on our dataset.
 
-We also provide benchmark results and pre-trained models for our two-stage fine-tuning approach (TFA). In TFA, we first train the entire object detector on the data-abundant base classes, and then only fine-tune the last layers of the detector on a small balanced training set. See [Models](#models) for our provided models and [Getting Started](#getting-started) for instructions on training and evaluation.
-
-FsDet is well-modularized so you can easily add your own datasets and models. The goal of this repository is to provide a general framework for few-shot object detection that can be used for future research.
+W mainly worked on three datasets: PASCAL VOC and COCO. We sample multiple groups of few-shot training examples for multiple runs of the experiments and report evaluation results on both the base classes and the novel classes. These are described in more detail in [Data Preparation](#data-preparation).
 
 If you find this repository useful for your publications, please consider citing our paper.
 
 ```angular2html
-@article{wang2020few,
+@article{Idris2023fsod_valorant,
     title={Frustratingly Simple Few-Shot Object Detection},
-    author={Wang, Xin and Huang, Thomas E. and  Darrell, Trevor and Gonzalez, Joseph E and Yu, Fisher}
-    booktitle = {International Conference on Machine Learning (ICML)},
-    month = {July},
-    year = {2020}
+    author={Idris Wardere, Du Huang, Adrita Das, Alice Gatera }
+    booktitle = {Introdcution to Deep Learning-11-785(CMU)},
+    month = {April},
+    year = {2023}
 }
 ```
 
