@@ -3,13 +3,15 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-FsDet contains the official few-shot object detection implementation of the ICML 2020 paper
+The official few-shot object detection implementation of the ICML 2020 paper
 [Frustratingly Simple Few-Shot Object Detection](https://arxiv.org/abs/2003.06957).
 ![TFA Figure](https://user-images.githubusercontent.com/7898443/76520006-698cc200-6438-11ea-864f-fd30b3d50cea.png)
 
-In addition to the benchmarks used by previous works, we introduce new benchmarks on three datasets: PASCAL VOC, COCO, and LVIS. We sample multiple groups of few-shot training examples for multiple runs of the experiments and report evaluation results on both the base classes and the novel classes. These are described in more detail in [Data Preparation](#data-preparation).
+The goal of this repository is to provide a framework for the implementation of the few-shot object detection methods in Valorant, a firstperson game set in a three dimensional environment developed and published by Riot Games.We followed the few-shot object dataset detection settings in the paper.
 
-We also provide benchmark results and pre-trained models for our two-stage fine-tuning approach (TFA). In TFA, we first train the entire object detector on the data-abundant base classes, and then only fine-tune the last layers of the detector on a small balanced training set. See [Models](#models) for our provided models and [Getting Started](#getting-started) for instructions on training and evaluation.
+FsDet has a two stage training scheme as Figure 2 shows. In stage 1, it trained a base object detector on abundant base images and in stage 2 it add some novel pictures, fix feature extractor, retrain the final classification layer. For stage 1, we would use one of the pre-trained models published by the paper named faster rcn R 101 FPN base1. The base model we would use is built upon a ResNet-101 backbone network, which is a deep residual network architecture that has been pre-trained on the ImageNet dataset.
+
+
 
 FsDet is well-modularized so you can easily add your own datasets and models. The goal of this repository is to provide a general framework for few-shot object detection that can be used for future research.
 
