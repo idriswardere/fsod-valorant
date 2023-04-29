@@ -14,15 +14,15 @@ FsDet has a two stage training scheme as Figure 2 shows. In stage 1, it trained 
 The custom dataset is a labeled dataset that we created for few-shot object detection in a video game. It includes 10 images of each character for the training dataset and 10 images for the validation dataset. These images were screenshots taken in the game with the character of interest in different poses and at different distances from the observer. This labeled dataset is used to finetune the pre-trained object detection model. The dataset is publicly available at the following link: https://universe.roboflow.com/fsodvalorant/fsod-valorant.
 
 
-If you find this repository useful for your publications, please consider citing our paper.
+If you find this repository useful for your publications, please consider citing our code.
 
 ```angular2html
-@article{wang2020few,
-    title={Frustratingly Simple Few-Shot Object Detection},
-    author={Wang, Xin and Huang, Thomas E. and  Darrell, Trevor and Gonzalez, Joseph E and Yu, Fisher}
-    booktitle = {International Conference on Machine Learning (ICML)},
-    month = {July},
-    year = {2020}
+@article{Idris2023fsod-valorant,
+    title={Few-Shot Object Detection in Valorant using Multiplicative Layer-wise
+Learning Rates}, 
+    author={Idris Wardere, Du Huang, Adrita Das, Alice Gatera},
+    month = {April},
+    year = {2023}
 }
 ```
 
