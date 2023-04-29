@@ -75,15 +75,18 @@ Currently, the codebase is compatible with [Detectron2 v0.2.1](https://github.co
 git checkout v0.3
 ```
 
-To install depedencies (example for PyTorch v1.6.0, CUDA v10.2, Detectron2 v0.3):
-* Install Detectron2 v0.3
+After cloning the FSOD repository from the "Frustratingly Simple Object Detection" paper and navigating to the repo's "test" directory, you can install Detectron2 and other required packages by following these steps:
 ```angular2html
-python3 -m pip install detectron2==0.3 -f \
-  https://dl.fbaipublicfiles.com/detectron2/wheels/cu102/torch1.6/index.html
+git clone https://github.com/idriswardere/fsod-valorant.git
 ```
-* Install other requirements.
+Change your working directory to the cloned repository:
 ```angular2html
-python3 -m pip install -r requirements.txt
+%cd fsod-valorant
+```
+* Install Detectron2 and other required packages by running the following command:.
+```angular2html
+!pip install git+https://github.com/facebookresearch/detectron2
+!python3 -m pip install -r requirements.txt
 ```
 
 ## Code Structure
