@@ -1,13 +1,10 @@
 # Few-Shot Object Detection in Valorant using Multiplicative Layer-wise Learning Rates
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ucbdrive/few-shot-object-detection.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ucbdrive/few-shot-object-detection/context:python)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-The official few-shot object detection implementation of the ICML 2020 paper
+This project was heavily inspired by the ICML 2020 paper
 [Frustratingly Simple Few-Shot Object Detection](https://arxiv.org/abs/2003.06957).
 ![TFA Figure](https://user-images.githubusercontent.com/7898443/76520006-698cc200-6438-11ea-864f-fd30b3d50cea.png)
 
-The goal of this repository is to provide a framework for the implementation of the few-shot object detection methods in Valorant, a firstperson game set in a three dimensional environment developed and published by Riot Games.We followed the few-shot object dataset detection settings in the paper.
+The goal of this repository is to provide a framework for the implementation of the few-shot object detection methods in Valorant, a first-person game set in a three dimensional environment developed and published by Riot Games. We followed the few-shot object dataset detection settings in the paper.
 
 FsDet has a two stage training scheme as Figure 2 shows. In stage 1, it trained a base object detector on abundant base images and in stage 2 it add some novel pictures, fix feature extractor, retrain the final classification layer. For stage 1, we would use one of the pre-trained models published by the paper named faster rcn R 101 FPN base1. The base model we would use is built upon a ResNet-101 backbone network, which is a deep residual network architecture that has been pre-trained on the ImageNet dataset.
 
