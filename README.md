@@ -11,9 +11,8 @@ The goal of this repository is to provide a framework for the implementation of 
 
 FsDet has a two stage training scheme as Figure 2 shows. In stage 1, it trained a base object detector on abundant base images and in stage 2 it add some novel pictures, fix feature extractor, retrain the final classification layer. For stage 1, we would use one of the pre-trained models published by the paper named faster rcn R 101 FPN base1. The base model we would use is built upon a ResNet-101 backbone network, which is a deep residual network architecture that has been pre-trained on the ImageNet dataset.
 
+The custom dataset is a labeled dataset that we created for few-shot object detection in a video game. It includes 10 images of each character for the training dataset and 10 images for the validation dataset. These images were screenshots taken in the game with the character of interest in different poses and at different distances from the observer. This labeled dataset is used to finetune the pre-trained object detection model. The dataset is publicly available at the following link: https://universe.roboflow.com/fsodvalorant/fsod-valorant.
 
-
-FsDet is well-modularized so you can easily add your own datasets and models. The goal of this repository is to provide a general framework for few-shot object detection that can be used for future research.
 
 If you find this repository useful for your publications, please consider citing our paper.
 
