@@ -484,11 +484,11 @@ class DefaultTrainer(SimpleTrainer):
         It now calls :func:`fsdet.solver.build_optimizer`.
         Overwrite it if you'd like a different optimizer.
         """
-        #return build_optimizer(cfg, model)
+        #return build_optimizer(cfg, model)  # Uncomment to use original fsdet trainer (MLLR otherwise)
         
         lr = 0.001
         layer_decay_factor = 0.5
-        decay_num = 10
+        decay_num = 25
         parameters = []
         layer_names = []
         for idx, (name, param) in enumerate(model.named_parameters()):
