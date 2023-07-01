@@ -1,12 +1,15 @@
 # Few-Shot Object Detection in Valorant using Multiplicative Layer-wise Learning Rates
 
-This project was heavily inspired by the ICML 2020 paper
+You can read the paper for this project [**here**](https://github.com/idriswardere/fsod-valorant/blob/master/project-report.pdf). 
+
+This project was heavily inspired by the work done on the ICML 2020 paper
 [Frustratingly Simple Few-Shot Object Detection](https://arxiv.org/abs/2003.06957).
-![TFA Figure](https://user-images.githubusercontent.com/7898443/76520006-698cc200-6438-11ea-864f-fd30b3d50cea.png)
+
+![MLLR Figure](https://github.com/idriswardere/fsod-valorant/blob/master/idlspaperfig.png?raw=true)
 
 The goal of this repository is to provide a framework for the implementation of the few-shot object detection methods in Valorant, a first-person game set in a three dimensional environment developed and published by Riot Games. We followed the few-shot object dataset detection settings in the paper.
 
-FsDet has a two stage training scheme as Figure 2 shows. In stage 1, it trained a base object detector on abundant base images and in stage 2 it add some novel pictures, fix feature extractor, retrain the final classification layer. For stage 1, we would use one of the pre-trained models published by the paper named faster rcn R 101 FPN base1. The base model we would use is built upon a ResNet-101 backbone network, which is a deep residual network architecture that has been pre-trained on the ImageNet dataset.
+FsDet has a two stage training scheme. In stage 1, it trained a base object detector on abundant base images and in stage 2 it add some novel pictures, fix feature extractor, retrain the final classification layer. For stage 1, we would use one of the pre-trained models published by the paper named faster rcn R 101 FPN base1. The base model we would use is built upon a ResNet-101 backbone network, which is a deep residual network architecture that has been pre-trained on the ImageNet dataset.
 
 The custom dataset is a labeled dataset that we created for few-shot object detection in a video game. It includes 10 images of each character for the training dataset and 10 images for the validation dataset. These images were screenshots taken in the game with the character of interest in different poses and at different distances from the observer. This labeled dataset is used to finetune the pre-trained object detection model. The dataset is publicly available at the following link: https://universe.roboflow.com/fsodvalorant/fsod-valorant.
 
@@ -22,11 +25,6 @@ Learning Rates},
     year = {2023}
 }
 ```
-
-## Updates
-- (Oct 2020) The code has been upgraded to detectron2 v0.2.1.  If you need the original released code, please checkout the release [v0.1](https://github.com/ucbdrive/few-shot-object-detection/tags) in the tag.
-
-
 
 ## Table of Contents
 - [Few-Shot Object Detection (FsDet)](#few-shot-object-detection-fsdet)
@@ -101,75 +99,3 @@ Change your working directory to the cloned repository:
   - **ckpt_surgery.py**: Surgery on checkpoints.
   - **run_experiments.py**: Running experiments across many seeds.
   - **aggregate_seeds.py**: Aggregating results from many seeds.
-
-
-## Data Preparation
-We evaluate our models on three datasets:
-- [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/): We use the train/val sets of PASCAL VOC 2007+2012 for training and the test set of PASCAL VOC 2007 for evaluation. We randomly split the 20 object classes into 15 base classes and 5 novel classes, and we consider 3 random splits. The splits can be found in [fsdet/data/builtin_meta.py](fsdet/data/builtin_meta.py).
-- [COCO](http://cocodataset.org/): We use COCO 2014 and extract 5k images from the val set for evaluation and use the rest for training. We use the 20 object classes that are the same with PASCAL VOC as novel classes and use the rest as base classes.
-- [LVIS](https://www.lvisdataset.org/): We treat the frequent and common classes as the base classes and the rare categories as the novel classes.
-
-See [datasets/README.md](datasets/README.md) for more details.
-
-If you would like to use your own custom dataset, see [CUSTOM.md](docs/CUSTOM.md) for instructions. If you would like to contribute your custom dataset to our codebase, feel free to open a PR.
-
-## Models
-We provide a set of benchmark results and pre-trained models available for download in [MODEL_ZOO.md](docs/MODEL_ZOO.md).
-
-
-## Getting Started
-
-### Inference Demo with Pre-trained Models
-
-1. Pick a model and its config file from
-  [model zoo](fsdet/model_zoo/model_zoo.py),
-  for example, `COCO-detection/faster_rcnn_R_101_FPN_ft_all_1shot.yaml`.
-2. We provide `demo.py` that is able to run builtin standard models. Run it with:
-```
-python3 -m demo.demo --config-file configs/COCO-detection/faster_rcnn_R_101_FPN_ft_all_1shot.yaml \
-  --input input1.jpg input2.jpg \
-  [--other-options]
-  --opts MODEL.WEIGHTS fsdet://coco/tfa_cos_1shot/model_final.pth
-```
-The configs are made for training, therefore we need to specify `MODEL.WEIGHTS` to a model from model zoo for evaluation.
-This command will run the inference and show visualizations in an OpenCV window.
-
-For details of the command line arguments, see `demo.py -h` or look at its source code
-to understand its behavior. Some common arguments are:
-* To run __on your webcam__, replace `--input files` with `--webcam`.
-* To run __on a video__, replace `--input files` with `--video-input video.mp4`.
-* To run __on cpu__, add `MODEL.DEVICE cpu` after `--opts`.
-* To save outputs to a directory (for images) or a file (for webcam or video), use `--output`.
-
-### Training & Evaluation in Command Line
-
-To train a model, run
-```angular2html
-python3 -m tools.train_net --num-gpus 8 \
-        --config-file configs/PascalVOC-detection/split1/faster_rcnn_R_101_FPN_base1.yaml
-```
-
-To evaluate the trained models, run
-```angular2html
-python3 -m tools.test_net --num-gpus 8 \
-        --config-file configs/PascalVOC-detection/split1/faster_rcnn_R_101_FPN_ft_all1_1shot.yaml \
-        --eval-only
-```
-
-For more detailed instructions on the training procedure of TFA, see [TRAIN_INST.md](docs/TRAIN_INST.md).
-
-### Multiple Runs
-
-For ease of training and evaluation over multiple runs, we provided several helpful scripts in `tools/`.
-
-You can use `tools/run_experiments.py` to do the training and evaluation. For example, to experiment on 30 seeds of the first split of PascalVOC on all shots, run
-```angular2html
-python3 -m tools.run_experiments --num-gpus 8 \
-        --shots 1 2 3 5 10 --seeds 0 30 --split 1
-```
-
-After training and evaluation, you can use `tools/aggregate_seeds.py` to aggregate the results over all the seeds to obtain one set of numbers. To aggregate the 3-shot results of the above command, run
-```angular2html
-python3 -m tools.aggregate_seeds --shots 3 --seeds 30 --split 1 \
-        --print --plot
-```
