@@ -1,6 +1,6 @@
 # Few-Shot Object Detection in Valorant using Multiplicative Layer-wise Learning Rates
 
-You can read the paper for this project [**here**](https://github.com/idriswardere/fsod-valorant/blob/master/project-report.pdf). 
+You can read the paper for this project [here](https://github.com/idriswardere/fsod-valorant/blob/master/project-report.pdf). You can also find a short presentation on the project [here](https://www.youtube.com/watch?v=UazlfWkqwDA).
 
 This project was heavily inspired by the work done on the ICML 2020 paper
 [Frustratingly Simple Few-Shot Object Detection](https://arxiv.org/abs/2003.06957).
